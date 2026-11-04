@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Médicos | MedSenai</title>
+
+    <link rel="stylesheet" href="/src/main/resources/Static/css/style .css">
+    <script src="/src/main/resources/Static/script.js/script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- MENU LATERAL -->
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <h2>Med<span>Senai</span></h2>
+
+            <button id="closeMenu"
+                    aria-label="Fechar menu">
+                &times;
+            </button>
+        </div>
+
+        <p class="sidebar-subtitle">
+            Sistema de Gestão Clínica
+        </p>
+
+        <nav class="sidebar-nav">
+            <a href="/">Início</a>
+            <a href="/medicos" class="active">Médicos</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
+        </nav>
+
+    </aside>
+
+    <!-- CABEÇALHO -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <button class="menu-button"
+                    id="openMenu"
+                    aria-label="Abrir menu"
+                    aria-controls="sidebar"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <a href="/" class="logo">
+                Med<span>Senai</span>
+            </a>
+
+        </div>
+
+        <div class="header-right">
+            Sistema de Gestão Médica
+        </div>
+
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+
+    <main class="medicos-page">
+
+        <div class="page-heading">
+            <span class="section-tag">GESTÃO CLÍNICA</span>
+
+            <h1>Gerenciamento de Médicos</h1>
+
+            <p>
+                Cadastre novos profissionais e visualize
+                os médicos registrados na clínica.
+            </p>
+        </div>
+
+        <!-- FORMULÁRIO -->
+
+        <section class="management-panel">
+
+            <h2>Cadastrar novo médico</h2>
+
+            <p class="panel-description">
+                Preencha as informações do profissional.
+            </p>
+
+            <form action="/medicos"
+                  th:action="@{/medicos}"
+                  method="post"
+                  class="medicos-form">
+
+                <div class="form-group">
+                    <label for="nome">Nome completo</label>
+
+                    <input type="text"
+                           id="nome"
+                           name="nome"
+                           placeholder="Nome do médico"
+                           maxlength="120"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="crm">CRM</label>
+
+                    <input type="text"
+                           id="crm"
+                           name="crm"
+                           placeholder="Ex: 12345-SC"
+                           maxlength="30"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="especialidade">
+                        Especialidade
+                    </label>
+
+                    <select id="especialidade"
+                            name="especialidade"
+                            required>
+
+                        <option value="">
+                            Selecione uma especialidade
+                        </option>
+
+                        <option value="Clínico Geral">
+                            Clínico Geral
+                        </option>
+
+                        <option value="Cardiologia">
+                            Cardiologia
+                        </option>
+
+                        <option value="Pediatria">
+                            Pediatria
+                        </option>
+
+                        <option value="Dermatologia">
+                            Dermatologia
+                        </option>
+
+                        <option value="Ortopedia">
+                            Ortopedia
+                        </option>
+
+                        <option value="Neurologia">
+                            Neurologia
+                        </option>
+
+                        <option value="Ginecologia">
+                            Ginecologia
+                        </option>
+
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="submit-button">
+                    Cadastrar Médico
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- LISTA DE MÉDICOS -->
+
+        <section class="management-panel">
+
+            <h2>Médicos cadastrados</h2>
+
+            <p class="panel-description">
+                Profissionais registrados no MedSenai.
+            </p>
+
+            <div class="table-container">
+
+                <table class="medicos-table">
+
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CRM</th>
+                            <th>Especialidade</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="medico : ${medicos}">
+                            <td th:text="${medico.nome}">
+                                Nome
+                            </td>
+
+                            <td th:text="${medico.crm}">
+                                CRM
+                            </td>
+
+                            <td th:text="${medico.especialidade}">
+                                Especialidade
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(medicos)}">
+                            <td colspan="3" class="empty-state">
+                                Nenhum médico cadastrado ainda.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 MedSenai — Projeto SENAI</p>
+    </footer>
+
+</body>
+</html>
