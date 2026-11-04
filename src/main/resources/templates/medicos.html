@@ -1,22 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Médicos | MedSenai</title>
 
-    <link rel="stylesheet" href="/src/main/resources/Static/css/style .css">
-    <script src="/src/main/resources/Static/script.js/script.js" defer></script>
-</head>
+    <link rel="stylesheet" href="/css/style.css">
+<script src="/js/script.js" defer></script>
 
 <body>
 
     <!-- MENU LATERAL -->
-
     <div class="overlay" id="overlay"></div>
 
     <aside class="sidebar" id="sidebar">
@@ -24,7 +20,7 @@
         <div class="sidebar-header">
             <h2>Med<span>Senai</span></h2>
 
-            <button id="closeMenu"
+            <button type="button" id="closeMenu"
                     aria-label="Fechar menu">
                 &times;
             </button>
@@ -44,12 +40,12 @@
     </aside>
 
     <!-- CABEÇALHO -->
-
     <header class="header">
 
         <div class="header-left">
 
-            <button class="menu-button"
+            <button type="button"
+                    class="menu-button"
                     id="openMenu"
                     aria-label="Abrir menu"
                     aria-controls="sidebar"
@@ -64,34 +60,34 @@
         </div>
 
         <div class="header-right">
-            Sistema de Gestão Médica
+            Gerenciamento de Médicos
         </div>
 
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-
+    <!-- CONTEÚDO -->
     <main class="medicos-page">
 
         <div class="page-heading">
-            <span class="section-tag">GESTÃO CLÍNICA</span>
+            <span class="section-tag">
+                GESTÃO CLÍNICA
+            </span>
 
             <h1>Gerenciamento de Médicos</h1>
 
             <p>
-                Cadastre novos profissionais e visualize
-                os médicos registrados na clínica.
+                Cadastre e organize os profissionais
+                da clínica em um único lugar.
             </p>
         </div>
 
         <!-- FORMULÁRIO -->
-
         <section class="management-panel">
 
             <h2>Cadastrar novo médico</h2>
 
             <p class="panel-description">
-                Preencha as informações do profissional.
+                Preencha os dados do profissional.
             </p>
 
             <form action="/medicos"
@@ -102,23 +98,25 @@
                 <div class="form-group">
                     <label for="nome">Nome completo</label>
 
-                    <input type="text"
-                           id="nome"
-                           name="nome"
-                           placeholder="Nome do médico"
-                           maxlength="120"
-                           required>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Ex: Dr. João Silva"
+                        maxlength="120"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="crm">CRM</label>
 
-                    <input type="text"
-                           id="crm"
-                           name="crm"
-                           placeholder="Ex: 12345-SC"
-                           maxlength="30"
-                           required>
+                    <input
+                        type="text"
+                        id="crm"
+                        name="crm"
+                        placeholder="Ex: 12345-SC"
+                        maxlength="30"
+                        required>
                 </div>
 
                 <div class="form-group">
@@ -174,14 +172,13 @@
 
         </section>
 
-        <!-- LISTA DE MÉDICOS -->
-
+        <!-- MÉDICOS CADASTRADOS -->
         <section class="management-panel">
 
             <h2>Médicos cadastrados</h2>
 
             <p class="panel-description">
-                Profissionais registrados no MedSenai.
+                Lista de profissionais registrados.
             </p>
 
             <div class="table-container">
@@ -199,6 +196,7 @@
                     <tbody>
 
                         <tr th:each="medico : ${medicos}">
+
                             <td th:text="${medico.nome}">
                                 Nome
                             </td>
@@ -210,6 +208,7 @@
                             <td th:text="${medico.especialidade}">
                                 Especialidade
                             </td>
+
                         </tr>
 
                         <tr th:if="${#lists.isEmpty(medicos)}">
@@ -225,6 +224,10 @@
             </div>
 
         </section>
+
+        <a href="/" class="back-link">
+            ← Voltar para o início
+        </a>
 
     </main>
 

@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pacientes | MedSenai</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- JAVASCRIPT -->
+    <script src="/js/script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- MENU LATERAL -->
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+
+            <h2>Med<span>Senai</span></h2>
+
+            <button type="button"
+                    id="closeMenu"
+                    aria-label="Fechar menu">
+                &times;
+            </button>
+
+        </div>
+
+        <p class="sidebar-subtitle">
+            Sistema de Gestão Clínica
+        </p>
+
+        <nav class="sidebar-nav">
+
+            <a href="/">
+                Início
+            </a>
+
+            <a href="/medicos">
+                Médicos
+            </a>
+
+            <a href="/pacientes" class="active">
+                Pacientes
+            </a>
+
+            <a href="/consultas">
+                Consultas
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+
+        <div class="header-left">
+
+            <button type="button"
+                    class="menu-button"
+                    id="openMenu"
+                    aria-label="Abrir menu"
+                    aria-controls="sidebar"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <a href="/" class="logo">
+                Med<span>Senai</span>
+            </a>
+
+        </div>
+
+        <div class="header-right">
+            Gerenciamento de Pacientes
+        </div>
+
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="medicos-page">
+
+        <div class="page-heading">
+
+            <span class="section-tag">
+                GESTÃO CLÍNICA
+            </span>
+
+            <h1>Gerenciamento de Pacientes</h1>
+
+            <p>
+                Cadastre novos pacientes e consulte
+                os registros da clínica.
+            </p>
+
+        </div>
+
+        <!-- FORMULÁRIO DE CADASTRO -->
+        <section class="management-panel">
+
+            <h2>Cadastrar novo paciente</h2>
+
+            <p class="panel-description">
+                Preencha as informações do paciente.
+            </p>
+
+            <form action="/pacientes"
+                  th:action="@{/pacientes}"
+                  method="post"
+                  class="medicos-form">
+
+                <!-- NOME -->
+                <div class="form-group">
+
+                    <label for="nome">
+                        Nome completo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite o nome completo"
+                        maxlength="120"
+                        required>
+
+                </div>
+
+                <!-- DOCUMENTO -->
+                <div class="form-group">
+
+                    <label for="documento">
+                        Documento
+                    </label>
+
+                    <input
+                        type="text"
+                        id="documento"
+                        name="documento"
+                        placeholder="Documento de identificação"
+                        maxlength="30"
+                        required>
+
+                </div>
+
+                <!-- BOTÃO -->
+                <button type="submit"
+                        class="submit-button">
+                    Cadastrar Paciente
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- TABELA DE PACIENTES -->
+        <section class="management-panel">
+
+            <h2>Pacientes cadastrados</h2>
+
+            <p class="panel-description">
+                Lista de pacientes registrados no MedSenai.
+            </p>
+
+            <div class="table-container">
+
+                <table class="medicos-table">
+
+                    <thead>
+                        <tr>
+                            <th>Nome completo</th>
+                            <th>Documento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <!-- PACIENTES CADASTRADOS -->
+                        <tr th:each="paciente : ${pacientes}">
+
+                            <td th:text="${paciente.nome}">
+                                Nome do paciente
+                            </td>
+
+                            <td th:text="${paciente.documento}">
+                                Documento
+                            </td>
+
+                        </tr>
+
+                        <!-- LISTA VAZIA -->
+                        <tr th:if="${#lists.isEmpty(pacientes)}">
+
+                            <td colspan="2"
+                                class="empty-state">
+
+                                Nenhum paciente cadastrado ainda.
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- VOLTAR -->
+        <a href="/" class="back-link">
+            ← Voltar para o início
+        </a>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+
+        <p>
+            © 2026 MedSenai — Sistema de Gestão Clínica
+        </p>
+
+        <p>
+            Projeto desenvolvido para o SENAI
+        </p>
+
+    </footer>
+
+</body>
+</html>

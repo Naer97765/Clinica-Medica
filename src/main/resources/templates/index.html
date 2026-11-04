@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedSenai | Sistema de Gestão Clínica</title>
 
-    <link rel="stylesheet" href="/src/main/resources/Static/css/style .css">
+    <link rel="stylesheet" href="/css/style.css">
 
-
-
+    <script src="/js/script.js" defer></script>
 </head>
 
 <body>
@@ -21,16 +16,13 @@
     <div class="overlay" id="overlay"></div>
 
     <aside class="sidebar" id="sidebar">
-
         <div class="sidebar-header">
-
             <h2>Med<span>Senai</span></h2>
 
-            <button id="closeMenu"
+            <button id="closeMenu" type="button"
                     aria-label="Fechar menu">
                 &times;
             </button>
-
         </div>
 
         <p class="sidebar-subtitle">
@@ -38,59 +30,40 @@
         </p>
 
         <nav class="sidebar-nav">
-
-            <a href="/" class="active">
-                Início
-            </a>
-
-            <a href="/medicos">
-                 Médicos
-            </a>
-
-            <a href="/pacientes">
-                Pacientes
-            </a>
-
-            <a href="/consultas">
-                Consultas
-            </a>
-
+            <a href="/" class="active">Início</a>
+            <a href="/medicos">Médicos</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
         </nav>
-
     </aside>
 
-
+    <!-- CABEÇALHO -->
     <header class="header">
-
         <div class="header-left">
 
-            <button
-                class="menu-button"
-                id="openMenu"
-                aria-label="Abrir menu"
-                aria-controls="sidebar"
-                aria-expanded="false">
+            <button class="menu-button"
+                    type="button"
+                    id="openMenu"
+                    aria-label="Abrir menu"
+                    aria-controls="sidebar"
+                    aria-expanded="false">
                 ☰
             </button>
 
             <a href="/" class="logo">
                 Med<span>Senai</span>
             </a>
-
         </div>
 
         <div class="header-right">
             Sistema de Gestão Médica
         </div>
-
     </header>
-
 
     <main>
 
-
+        <!-- APRESENTAÇÃO -->
         <section class="hero">
-
             <div class="hero-content">
 
                 <span class="hero-tag">
@@ -104,137 +77,99 @@
 
                 <p>
                     Bem-vindo ao MedSenai.
-
-                    Uma plataforma moderna desenvolvida
-                    para organizar médicos, pacientes
-                    e consultas.
+                    Uma plataforma moderna para organizar
+                    médicos, pacientes e consultas.
 
                     Mais tecnologia, praticidade e
-                    eficiência para a gestão da sua clínica.
+                    eficiência na gestão da sua clínica.
                 </p>
 
-                <a href="#servicos"
-                   class="primary-button">
+                <a href="#servicos" class="primary-button">
                     Conheça nosso sistema →
                 </a>
-
             </div>
 
-            <div
-                class="hero-image"
-                role="img"
-                aria-label="Profissional de saúde em atendimento médico">
+            <div class="hero-image"
+                 role="img"
+                 aria-label="Ambiente de atendimento médico">
             </div>
-
         </section>
 
+        <!-- FUNCIONALIDADES -->
         <section class="services" id="servicos">
 
             <div class="section-heading">
+                <span class="section-tag">NOSSA PLATAFORMA</span>
 
-                <span class="section-tag">
-                    NOSSA PLATAFORMA
-                </span>
-
-                <h2>
-                    Gerenciamento inteligente
-                </h2>
+                <h2>Gerenciamento inteligente</h2>
 
                 <p>
                     Todas as ferramentas necessárias
-                    para administrar sua clínica
-                    em um único lugar.
+                    para administrar sua clínica.
                 </p>
-
             </div>
 
             <div class="cards">
 
-  
+                <!-- MÉDICOS -->
                 <article class="card">
-
-                    <div class="card-icon">
-                        🩺
-                    </div>
+                    <div class="card-icon">01</div>
 
                     <h3>Médicos</h3>
 
                     <p>
-                        Cadastre profissionais,
-                        organize especialidades
-                        e consulte informações médicas.
+                        Cadastre profissionais, organize
+                        especialidades e consulte
+                        informações médicas.
                     </p>
 
-                    <a href="/medicos.html">
+                    <a href="/medicos">
                         Gerenciar médicos →
                     </a>
-
                 </article>
 
-
+                <!-- PACIENTES -->
                 <article class="card">
-
-                    <div class="card-icon">
-                        
-                    </div>
+                    <div class="card-icon">02</div>
 
                     <h3>Pacientes</h3>
 
                     <p>
-                        Organize cadastros,
-                        visualize informações
-                        e acompanhe históricos
-                        de atendimento.
+                        Organize cadastros, visualize
+                        informações e acompanhe o
+                        histórico dos pacientes.
                     </p>
 
                     <a href="/pacientes">
                         Gerenciar pacientes →
                     </a>
-
                 </article>
 
                 <!-- CONSULTAS -->
                 <article class="card">
-
-                    <div class="card-icon">
-                        
-                    </div>
+                    <div class="card-icon">03</div>
 
                     <h3>Consultas</h3>
 
                     <p>
-                        Agende atendimentos,
-                        consulte horários
-                        e gerencie cancelamentos
-                        de consultas.
+                        Agende atendimentos, consulte
+                        horários e gerencie cancelamentos.
                     </p>
 
                     <a href="/consultas">
                         Gerenciar consultas →
                     </a>
-
                 </article>
 
             </div>
-
         </section>
 
     </main>
 
     <footer>
-
-        <p>
-            © 2026 MedSenai |
-            Sistema de Gestão Clínica
-        </p>
-
-        <p>
-            Projeto desenvolvido para o SENAI
-        </p>
-
+        <p>© 2026 MedSenai — Sistema de Gestão Clínica</p>
+        <p>Projeto desenvolvido para o SENAI</p>
     </footer>
-
-  <script src="/src/main/resources/Static/script.js/script.js"></script>
 
 </body>
 </html>
