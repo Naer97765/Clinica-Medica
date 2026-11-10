@@ -40,7 +40,30 @@ public String listarConsultas(Model model) {
 
     return "consultas";
 }
+    @PostMapping("/consultas")
+public String agendarConsulta(
+        @RequestParam("crm") String crm,
+        @RequestParam("documento") String documento,
+        @RequestParam("dataHora") String dataHora,
+        RedirectAttributes redirect) {
 
+    try {
+        clinicaService.agendarConsulta(crm, documento, dataHora);
+
+        redirect.addFlashAttribute(
+                "sucesso", "Consulta agendada com sucesso!");
+
+    } catch (java.time.format.DateTimeParseException erro) {
+        redirect.addFlashAttribute(
+                "erro", "Informe uma data e um horário válidos.");
+
+    } catch (IllegalArgumentException erro) {
+        redirect.addFlashAttribute(
+                "erro", erro.getMessage());
+    }
+
+    return "redirect:/consultas";
+}
     @PostMapping("/consultas/{indice}/cancelar")
     public String cancelarConsulta(
             @PathVariable int indice,
@@ -57,6 +80,6 @@ public String listarConsultas(Model model) {
                 "erro", erro.getMessage());
         }
 
-        return "redirect:/consultas";
+        return "redirect:/consultas";    
     }
 }

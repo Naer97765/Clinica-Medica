@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PacienteController {
 
-    private final List<Paciente> pacientes = new ArrayList<>();
+   private final ClinicaService clinicaService;
 
+public PacienteController(ClinicaService clinicaService) {
+    this.clinicaService = clinicaService;
+}
     // Exibir a página de pacientes
     @GetMapping("/pacientes")
     public String listarPacientes(Model model) {
-    model.addAttribute("pacientes", pacientes);
+    model.addAttribute("pacientes", clinicaService.listarPacientes());
     return "pacientes";
 }
     
@@ -34,7 +37,7 @@ public class PacienteController {
             documento
         );
 
-        pacientes.add(novoPaciente);
+        clinicaService.cadastrarPaciente(nome, documento);
 
         return "redirect:/pacientes";
     }
