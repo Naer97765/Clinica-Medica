@@ -8,8 +8,13 @@ public class Consulta {
     private Paciente paciente;
     private LocalDateTime dataHora;
     private boolean cancelada;
+    private final boolean urgente;
 
     public Consulta(Medico medico, Paciente paciente, LocalDateTime dataHora) {
+        this(medico, paciente, dataHora, false);
+    }
+
+    public Consulta(Medico medico, Paciente paciente, LocalDateTime dataHora, boolean urgente) {
         if (medico == null || paciente == null || dataHora == null) {
             throw new IllegalArgumentException(
                 "Médico, paciente e data são obrigatórios!"
@@ -20,6 +25,7 @@ public class Consulta {
         this.paciente = paciente;
         this.dataHora = dataHora;
         this.cancelada = false;
+        this.urgente = urgente;
     }
 
     public Medico getMedico() {
@@ -32,6 +38,10 @@ public class Consulta {
 
     public LocalDateTime getDataHora() {
         return dataHora;
+    }
+
+    public boolean isUrgente() {
+        return urgente;
     }
 
     public boolean isCancelada() {
