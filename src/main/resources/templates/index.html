@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -163,6 +163,55 @@
 
             </div>
         </section>
+
+        <div class="home-lists">
+            <section class="management-panel" aria-labelledby="lista-medicos">
+                <h2 id="lista-medicos">Médicos cadastrados</h2>
+                <p class="panel-description">Profissionais que fazem parte da clínica.</p>
+                <div class="table-container">
+                    <table class="medicos-table">
+                        <thead>
+                            <tr><th scope="col">Nome</th><th scope="col">CRM</th><th scope="col">Especialidade</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="medico : ${medicos}">
+                                <td th:text="${medico.nome}"></td>
+                                <td th:text="${medico.crm}"></td>
+                                <td th:text="${medico.especialidade}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(medicos)}">
+                                <td colspan="3" class="empty-state">Nenhum médico cadastrado ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/medicos" class="back-link">Gerenciar médicos →</a>
+            </section>
+
+            <section class="management-panel" aria-labelledby="lista-consultas">
+                <h2 id="lista-consultas">Consultas registradas</h2>
+                <p class="panel-description">Acompanhe os horários e a situação de cada atendimento.</p>
+                <div class="table-container">
+                    <table class="medicos-table">
+                        <thead>
+                            <tr><th scope="col">Médico</th><th scope="col">Paciente</th><th scope="col">Data e hora</th><th scope="col">Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="consulta : ${consultas}">
+                                <td th:text="${consulta.medico.nome}"></td>
+                                <td th:text="${consulta.paciente.nome}"></td>
+                                <td th:text="${#temporals.format(consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td th:text="${consulta.cancelada ? 'Cancelada' : 'Agendada'}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(consultas)}">
+                                <td colspan="4" class="empty-state">Nenhuma consulta registrada ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/consultas" class="back-link">Gerenciar consultas →</a>
+            </section>
+        </div>
 
     </main>
 
