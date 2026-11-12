@@ -53,7 +53,7 @@
                     aria-label="Abrir menu"
                     aria-controls="sidebar"
                     aria-expanded="false">
-                ☰
+                <span class="menu-icon" aria-hidden="true"></span>
             </button>
 
             <a href="/" class="logo">
@@ -96,10 +96,10 @@
         <!-- FORMULÁRIO -->
         <section class="management-panel">
 
-            <h2>Agendar nova consulta</h2>
+            <h2 id="agendamento">Nova consulta</h2>
 
             <p class="panel-description">
-                Preencha as informações do atendimento. Cada horário permite apenas uma consulta na clínica.
+                Preencha os dados e escolha o tipo de cadastro. Cada horário permite apenas uma consulta, inclusive urgente.
             </p>
 
             <form action="/consultas"
@@ -110,9 +110,9 @@
                 <!-- MÉDICO -->
                 <div class="form-group">
 
-                    <label for="crm">Médico responsável</label>
+                    <label for="medicoId">Médico responsável</label>
 
-                    <select id="crm" name="crm" required>
+                    <select id="medicoId" name="medicoId" required>
 
                         <option value="">
                             Selecione um médico
@@ -120,7 +120,7 @@
 
                         <option
                             th:each="medico : ${medicos}"
-                            th:value="${medico.crm}"
+                            th:value="${medico.id}"
                             th:text="${medico.nome + ' - ' + medico.especialidade}">
                         </option>
 
@@ -163,10 +163,10 @@
                 </div>
 
                 <!-- CADASTRAR -->
-                <button type="submit"
-                        class="submit-button">
-                    Agendar Consulta
-                </button>
+                <div class="form-actions">
+                    <button type="submit" name="urgente" value="false" class="submit-button">Agendar consulta</button>
+                    <button type="submit" name="urgente" value="true" class="urgent-button">Cadastrar consulta urgente</button>
+                </div>
 
             </form>
 
@@ -196,6 +196,7 @@
                             <th>Médico</th>
                             <th>Paciente</th>
                             <th>Data e hora</th>
+                            <th>Prioridade</th>
                             <th>Status</th>
                             <th>Ação</th>
                         </tr>
@@ -217,6 +218,7 @@
                                 Data
                             </td>
 
+                            <td><span class="priority" th:classappend="${consulta.urgente ? 'priority-urgent' : ''}" th:text="${consulta.urgente ? 'Urgente' : 'Rotina'}"></span></td>
                             <td th:text="${consulta.cancelada ? 'Cancelada' : 'Agendada'}">
                                 Status
                             </td>
@@ -242,7 +244,7 @@
                         </tr>
 
                         <tr th:if="${#lists.isEmpty(consultas)}">
-                            <td colspan="5" class="empty-state">
+                            <td colspan="6" class="empty-state">
                                 Nenhuma consulta registrada ainda.
                             </td>
                         </tr>
@@ -255,7 +257,7 @@
         </section>
 
         <a href="/" class="back-link">
-            ← Voltar para o início
+            Voltar para o início
         </a>
 
     </main>
