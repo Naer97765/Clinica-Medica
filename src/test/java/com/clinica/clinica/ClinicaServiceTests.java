@@ -19,13 +19,29 @@ class ClinicaServiceTests {
     }
 
     @Test
-    void recusaMesmoMinutoMesmoComMedicoPacienteESegundosDiferentes() {
+    void recusaMesmoMedicoNoMesmoMinutoComPacientesESegundosDiferentes() {
         service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T09:30:01");
         var erro = assertThrows(IllegalArgumentException.class,
-                () -> service.agendarConsulta(service.listarMedicos().get(1).getId(), "456", "2026-12-01T09:30:59"));
-        assertTrue(erro.getMessage().contains("Já existe uma consulta"));
+                () -> service.agendarConsulta(service.listarMedicos().get(0).getId(), "456", "2026-12-01T09:30:59"));
+        assertTrue(erro.getMessage().contains("Este médico já possui uma consulta"));
         assertEquals(1, service.listarConsultas().size());
         assertEquals(0, service.listarConsultas().get(0).getDataHora().getSecond());
+    }
+
+    @Test
+    void permiteMedicosDeAreasDiferentesNoMesmoHorarioInclusiveUrgencia() {
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T16:02");
+        service.agendarConsulta(service.listarMedicos().get(1).getId(), "456", "2026-12-01T16:02", true);
+        assertEquals(2, service.listarConsultas().size());
+        assertTrue(service.listarConsultas().get(1).isUrgente());
+    }
+
+    @Test
+    void bloqueioEhPorProfissionalMesmoComEspecialidadeENomeIguais() {
+        service.cadastrarMedico("Ana", "Clínica geral");
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T16:02");
+        service.agendarConsulta(service.listarMedicos().get(2).getId(), "456", "2026-12-01T16:02");
+        assertEquals(2, service.listarConsultas().size());
     }
 
     @Test
@@ -41,7 +57,7 @@ class ClinicaServiceTests {
     void cancelamentoLiberaHorario() {
         service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T09:30");
         service.cancelarConsulta(0);
-        service.agendarConsulta(service.listarMedicos().get(1).getId(), "456", "2026-12-01T09:30");
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "456", "2026-12-01T09:30");
         assertTrue(service.listarConsultas().get(0).isCancelada());
         assertFalse(service.listarConsultas().get(1).isCancelada());
         assertThrows(IllegalArgumentException.class,
