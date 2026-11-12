@@ -76,6 +76,16 @@ public class ClinicaService {
                     "Este médico já possui uma consulta neste dia e horário. Escolha outro horário ou outro médico.");
         }
 
+        boolean pacienteOcupado = consultas.stream()
+                .anyMatch(consulta -> !consulta.isCancelada()
+                        && consulta.getPaciente().getDocumento().equals(documento)
+                        && consulta.getDataHora().truncatedTo(ChronoUnit.MINUTES).equals(data));
+
+        if (pacienteOcupado) {
+            throw new IllegalArgumentException(
+                    "Este paciente já possui uma consulta neste dia e horário. Escolha outro horário.");
+        }
+
         consultas.add(new Consulta(medico, paciente, data, urgente));
     }
 
