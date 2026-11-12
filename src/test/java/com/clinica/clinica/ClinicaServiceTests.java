@@ -95,6 +95,35 @@ class ClinicaServiceTests {
     }
 
     @Test
+    void recusaMesmoPacienteComMedicosDiferentesNoMesmoMinuto() {
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T16:02:01");
+        for (boolean urgente : new boolean[] {false, true}) {
+            var erro = assertThrows(IllegalArgumentException.class,
+                    () -> service.agendarConsulta(service.listarMedicos().get(1).getId(),
+                            "123", "2026-12-01T16:02:59", urgente));
+            assertTrue(erro.getMessage().contains("Este paciente já possui uma consulta"));
+        }
+        assertEquals(1, service.listarConsultas().size());
+    }
+
+    @Test
+    void cancelamentoLiberaPacienteParaOutroMedicoNoMesmoHorario() {
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T16:02");
+        service.cancelarConsulta(0);
+        service.agendarConsulta(service.listarMedicos().get(1).getId(), "123", "2026-12-01T16:02", true);
+        assertEquals(2, service.listarConsultas().size());
+        assertFalse(service.listarConsultas().get(1).isCancelada());
+    }
+
+    @Test
+    void pacientesHomonimosComDocumentosDiferentesPodemSerAtendidosAoMesmoTempo() {
+        service.cadastrarPaciente("Carlos", "789");
+        service.agendarConsulta(service.listarMedicos().get(0).getId(), "123", "2026-12-01T16:02");
+        service.agendarConsulta(service.listarMedicos().get(1).getId(), "789", "2026-12-01T16:02");
+        assertEquals(2, service.listarConsultas().size());
+    }
+
+    @Test
     void paginaInicialRecebeListasVazias() {
         var model = new ExtendedModelMap();
         new HomeController(new ClinicaService()).inicio(model);
