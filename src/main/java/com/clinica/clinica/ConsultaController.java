@@ -23,11 +23,7 @@ public class ConsultaController {
     @GetMapping("/consultas")
 public String listarConsultas(Model model) {
 
-    System.out.println("Médicos encontrados: "
-        + clinicaService.listarMedicos().size());
 
-    System.out.println("Pacientes encontrados: "
-        + clinicaService.listarPacientes().size());
 
     model.addAttribute("medicos",
         clinicaService.listarMedicos());
@@ -42,16 +38,17 @@ public String listarConsultas(Model model) {
 }
     @PostMapping("/consultas")
 public String agendarConsulta(
-        @RequestParam("crm") String crm,
+        @RequestParam("medicoId") String medicoId,
         @RequestParam("documento") String documento,
         @RequestParam("dataHora") String dataHora,
+        @RequestParam(value = "urgente", defaultValue = "false") boolean urgente,
         RedirectAttributes redirect) {
 
     try {
-        clinicaService.agendarConsulta(crm, documento, dataHora);
+        clinicaService.agendarConsulta(medicoId, documento, dataHora, urgente);
 
         redirect.addFlashAttribute(
-                "sucesso", "Consulta agendada com sucesso!");
+                "sucesso", urgente ? "Consulta urgente cadastrada." : "Consulta agendada com sucesso!");
 
     } catch (java.time.format.DateTimeParseException erro) {
         redirect.addFlashAttribute(

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedSenai | Sistema de Gestão Clínica</title>
@@ -47,7 +48,7 @@
                     aria-label="Abrir menu"
                     aria-controls="sidebar"
                     aria-expanded="false">
-                ☰
+                <span class="menu-icon" aria-hidden="true"></span>
             </button>
 
             <a href="/" class="logo">
@@ -62,108 +63,14 @@
 
     <main>
 
-        <!-- APRESENTAÇÃO -->
-        <section class="hero">
-            <div class="hero-content">
-
-                <span class="hero-tag">
-                    TECNOLOGIA E SAÚDE
-                </span>
-
-                <h1>
-                    Uma nova forma de
-                    <span>cuidar da saúde.</span>
-                </h1>
-
-                <p>
-                    Bem-vindo ao MedSenai.
-                    Uma plataforma moderna para organizar
-                    médicos, pacientes e consultas.
-
-                    Mais tecnologia, praticidade e
-                    eficiência na gestão da sua clínica.
-                </p>
-
-                <a href="#servicos" class="primary-button">
-                    Conheça nosso sistema →
-                </a>
-            </div>
-
-            <div class="hero-image"
-                 role="img"
-                 aria-label="Ambiente de atendimento médico">
+        <section class="dashboard-heading">
+            <div><span class="section-tag">RECEPÇÃO</span><h1>Painel da clínica</h1>
+            <p>Consulte a agenda e os profissionais cadastrados.</p></div>
+            <div class="page-actions">
+                <a href="/consultas" class="primary-button">Agendar consulta</a>
+                <a href="/consultas#agendamento" class="urgent-button">Cadastrar urgência</a>
             </div>
         </section>
-
-        <!-- FUNCIONALIDADES -->
-        <section class="services" id="servicos">
-
-            <div class="section-heading">
-                <span class="section-tag">NOSSA PLATAFORMA</span>
-
-                <h2>Gerenciamento inteligente</h2>
-
-                <p>
-                    Todas as ferramentas necessárias
-                    para administrar sua clínica.
-                </p>
-            </div>
-
-            <div class="cards">
-
-                <!-- MÉDICOS -->
-                <article class="card">
-                    <div class="card-icon">01</div>
-
-                    <h3>Médicos</h3>
-
-                    <p>
-                        Cadastre profissionais, organize
-                        especialidades e consulte
-                        informações médicas.
-                    </p>
-
-                    <a href="/medicos">
-                        Gerenciar médicos →
-                    </a>
-                </article>
-
-                <!-- PACIENTES -->
-                <article class="card">
-                    <div class="card-icon">02</div>
-
-                    <h3>Pacientes</h3>
-
-                    <p>
-                        Organize cadastros, visualize
-                        informações e acompanhe o
-                        histórico dos pacientes.
-                    </p>
-
-                    <a href="/pacientes">
-                        Gerenciar pacientes →
-                    </a>
-                </article>
-
-                <!-- CONSULTAS -->
-                <article class="card">
-                    <div class="card-icon">03</div>
-
-                    <h3>Consultas</h3>
-
-                    <p>
-                        Agende atendimentos, consulte
-                        horários e gerencie cancelamentos.
-                    </p>
-
-                    <a href="/consultas">
-                        Gerenciar consultas →
-                    </a>
-                </article>
-
-            </div>
-        </section>
-
         <div class="home-lists">
             <section class="management-panel" aria-labelledby="lista-medicos">
                 <h2 id="lista-medicos">Médicos cadastrados</h2>
@@ -171,21 +78,20 @@
                 <div class="table-container">
                     <table class="medicos-table">
                         <thead>
-                            <tr><th scope="col">Nome</th><th scope="col">CRM</th><th scope="col">Especialidade</th></tr>
+                            <tr><th scope="col">Nome</th><th scope="col">Especialidade</th></tr>
                         </thead>
                         <tbody>
                             <tr th:each="medico : ${medicos}">
                                 <td th:text="${medico.nome}"></td>
-                                <td th:text="${medico.crm}"></td>
                                 <td th:text="${medico.especialidade}"></td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(medicos)}">
-                                <td colspan="3" class="empty-state">Nenhum médico cadastrado ainda.</td>
+                                <td colspan="2" class="empty-state">Nenhum médico cadastrado ainda.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <a href="/medicos" class="back-link">Gerenciar médicos →</a>
+                <a href="/medicos" class="back-link">Gerenciar médicos</a>
             </section>
 
             <section class="management-panel" aria-labelledby="lista-consultas">
@@ -194,22 +100,23 @@
                 <div class="table-container">
                     <table class="medicos-table">
                         <thead>
-                            <tr><th scope="col">Médico</th><th scope="col">Paciente</th><th scope="col">Data e hora</th><th scope="col">Status</th></tr>
+                            <tr><th scope="col">Médico</th><th scope="col">Paciente</th><th scope="col">Data e hora</th><th scope="col">Prioridade</th><th scope="col">Status</th></tr>
                         </thead>
                         <tbody>
                             <tr th:each="consulta : ${consultas}">
                                 <td th:text="${consulta.medico.nome}"></td>
                                 <td th:text="${consulta.paciente.nome}"></td>
                                 <td th:text="${#temporals.format(consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
-                                <td th:text="${consulta.cancelada ? 'Cancelada' : 'Agendada'}"></td>
+                                <td><span class="priority" th:classappend="${consulta.urgente ? 'priority-urgent' : ''}" th:text="${consulta.urgente ? 'Urgente' : 'Rotina'}"></span></td>
+                            <td th:text="${consulta.cancelada ? 'Cancelada' : 'Agendada'}"></td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(consultas)}">
-                                <td colspan="4" class="empty-state">Nenhuma consulta registrada ainda.</td>
+                                <td colspan="5" class="empty-state">Nenhuma consulta registrada ainda.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <a href="/consultas" class="back-link">Gerenciar consultas →</a>
+                <a href="/consultas" class="back-link">Gerenciar consultas</a>
             </section>
         </div>
 

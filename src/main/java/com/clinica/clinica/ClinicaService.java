@@ -18,9 +18,9 @@ public class ClinicaService {
     // MÉDICOS
 
     public synchronized void cadastrarMedico(
-            String nome, String crm, String especialidade) {
+            String nome, String especialidade) {
 
-        medicos.add(new Medico(nome, crm, especialidade));
+        medicos.add(new Medico(nome, especialidade));
     }
 
     public synchronized List<Medico> listarMedicos() {
@@ -42,10 +42,16 @@ public class ClinicaService {
     // CONSULTAS
 
     public synchronized void agendarConsulta(
-            String crm, String documento, String dataHora) {
+            String medicoId, String documento, String dataHora) {
+
+        agendarConsulta(medicoId, documento, dataHora, false);
+    }
+
+    public synchronized void agendarConsulta(
+            String medicoId, String documento, String dataHora, boolean urgente) {
 
         Medico medico = medicos.stream()
-                .filter(m -> m.getCrm().equals(crm))
+                .filter(m -> m.getId().equals(medicoId))
                 .findFirst()
                 .orElseThrow(() ->
                         new IllegalArgumentException(
@@ -62,14 +68,25 @@ public class ClinicaService {
 
         boolean horarioOcupado = consultas.stream()
                 .anyMatch(consulta -> !consulta.isCancelada()
+                        && consulta.getMedico().getId().equals(medicoId)
                         && consulta.getDataHora().truncatedTo(ChronoUnit.MINUTES).equals(data));
 
         if (horarioOcupado) {
             throw new IllegalArgumentException(
-                    "Já existe uma consulta agendada neste dia e horário. Escolha outro horário.");
+                    "Este médico já possui uma consulta neste dia e horário. Escolha outro horário ou outro médico.");
         }
 
-        consultas.add(new Consulta(medico, paciente, data));
+        boolean pacienteOcupado = consultas.stream()
+                .anyMatch(consulta -> !consulta.isCancelada()
+                        && consulta.getPaciente().getDocumento().equals(documento)
+                        && consulta.getDataHora().truncatedTo(ChronoUnit.MINUTES).equals(data));
+
+        if (pacienteOcupado) {
+            throw new IllegalArgumentException(
+                    "Este paciente já possui uma consulta neste dia e horário. Escolha outro horário.");
+        }
+
+        consultas.add(new Consulta(medico, paciente, data, urgente));
     }
 
     public synchronized List<Consulta> listarConsultas() {

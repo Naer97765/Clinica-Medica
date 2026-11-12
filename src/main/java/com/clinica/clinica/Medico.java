@@ -3,12 +3,11 @@ package com.clinica.clinica;
 public class Medico {
     
     private String nome;
-    private String crm;
+    private final String id = java.util.UUID.randomUUID().toString();
     private String especialidade;
 
-    public Medico(String nome, String crm, String especialidade) {
+    public Medico(String nome, String especialidade) {
         this.nome = nome;
-        this.crm = crm;
         this.especialidade = especialidade;
     }
 
@@ -16,8 +15,8 @@ public class Medico {
         return nome;
     }
 
-    public String getCrm() {
-        return crm;
+    public String getId() {
+        return id;
     }
 
     public String getEspecialidade() {
