@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/style.css">
 <script src="/js/script.js" defer></script>
 
+</head>
 <body>
 
     <!-- MENU LATERAL -->
@@ -50,7 +51,7 @@
                     aria-label="Abrir menu"
                     aria-controls="sidebar"
                     aria-expanded="false">
-                ☰
+                <span class="menu-icon" aria-hidden="true"></span>
             </button>
 
             <a href="/" class="logo">
@@ -107,17 +108,7 @@
                         required>
                 </div>
 
-                <div class="form-group">
-                    <label for="crm">CRM</label>
 
-                    <input
-                        type="text"
-                        id="crm"
-                        name="crm"
-                        placeholder="Ex: 12345-SC"
-                        maxlength="30"
-                        required>
-                </div>
 
                 <div class="form-group">
                     <label for="especialidade">
@@ -188,7 +179,6 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>CRM</th>
                             <th>Especialidade</th>
                         </tr>
                     </thead>
@@ -201,10 +191,6 @@
                                 Nome
                             </td>
 
-                            <td th:text="${medico.crm}">
-                                CRM
-                            </td>
-
                             <td th:text="${medico.especialidade}">
                                 Especialidade
                             </td>
@@ -212,7 +198,7 @@
                         </tr>
 
                         <tr th:if="${#lists.isEmpty(medicos)}">
-                            <td colspan="3" class="empty-state">
+                            <td colspan="2" class="empty-state">
                                 Nenhum médico cadastrado ainda.
                             </td>
                         </tr>
@@ -226,7 +212,7 @@
         </section>
 
         <a href="/" class="back-link">
-            ← Voltar para o início
+            Voltar para o início
         </a>
 
     </main>
