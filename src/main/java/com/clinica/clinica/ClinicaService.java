@@ -2,6 +2,7 @@
 package com.clinica.clinica;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,16 @@ public class ClinicaService {
                         new IllegalArgumentException(
                                 "Paciente não cadastrado!"));
 
-        LocalDateTime data = LocalDateTime.parse(dataHora);
+        LocalDateTime data = LocalDateTime.parse(dataHora).truncatedTo(ChronoUnit.MINUTES);
+
+        boolean horarioOcupado = consultas.stream()
+                .anyMatch(consulta -> !consulta.isCancelada()
+                        && consulta.getDataHora().truncatedTo(ChronoUnit.MINUTES).equals(data));
+
+        if (horarioOcupado) {
+            throw new IllegalArgumentException(
+                    "Já existe uma consulta agendada neste dia e horário. Escolha outro horário.");
+        }
 
         consultas.add(new Consulta(medico, paciente, data));
     }
