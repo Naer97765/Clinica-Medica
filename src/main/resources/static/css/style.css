@@ -538,3 +538,13 @@ footer p {
 }
 
 }
+/* LISTAS DA PÁGINA INICIAL */
+.home-lists {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px 50px;
+}
+
+.home-lists .back-link {
+    margin-top: 20px;
+}
