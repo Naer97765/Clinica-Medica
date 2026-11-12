@@ -1,8 +1,6 @@
 
 package com.clinica.clinica;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +29,9 @@ public class MedicoController {
     @PostMapping("/medicos")
     public String cadastrarMedico(
             @RequestParam String nome,
-            @RequestParam String crm,
             @RequestParam String especialidade) {
 
-        clinicaService.cadastrarMedico(nome, crm, especialidade);
+        clinicaService.cadastrarMedico(nome, especialidade);
 
         return "redirect:/medicos";
     }
